@@ -1,0 +1,12 @@
+#contenedor {
+	width: 80%;	
+	margin: auto;
+} 
+
+table, td, th {
+	border: 1px solid blue;
+}
+
+.campos {
+	margin-bottom:8px;
+}

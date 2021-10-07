@@ -125,6 +125,35 @@ echo "<br>\$c "; var_dump($c);
 if ( $c>$a && $c>$b ) {
 	echo "<br>$c>$a e ademáis $c>$b";
 }
+//se pode usar and en lugar de &&
+if ( $c>$a and $c>$b ) {
+	echo "<br>$c>$a e ademáis $c>$b";
+}
+
+if ( $c>$a || $c==$b ) {
+	echo "<br>$c>$a ou $c==$b";
+} 
+//se pode usar or en lugar de ||
+if ( $c>$a or $c==$b ) {
+	echo "<br>$c>$a ou $c==$b";
+} 
+
+if ( !($c==$b) ) {
+	echo "<br>$c non é igual a $b";
+} else {
+	echo "<br>$c é igual a $b";
+}
+
+//se poden concatenar máis de duas condicións
+
+if ( ($c>=$b && $c>=$a) || $c<=2 ) {
+	echo "<br> ($c>=$b && $c>=$a) || $c<=$a";
+}
+
+//operador de contatenación de cadeas, operador punto : '.'
+
+echo "<br> \$a + \$b = ".($a+$b)." e \$a x \$b = ".($a*$b)."<br>";
+
 
 
 ?>	

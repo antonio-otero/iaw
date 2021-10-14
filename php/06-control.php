@@ -147,8 +147,14 @@ else
 	echo "\n</table>";
 ?>
 
+	<h3>include e require</h3>
+<?php
+	include '01-basico.php';
 
 
+?>	
+
+ 
 
 
 

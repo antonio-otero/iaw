@@ -1,0 +1,28 @@
+
+* {
+	box-sizing: border-box; /* ancho de modelo de caixa establecido de bore a borde  */
+}
+#contenedor {
+	width: 80%;
+	margin: 0 auto; /*centrar*/
+}
+
+h3 {
+	text-align: center;
+}
+#calendario {
+	display: flex;
+	flex-wrap: wrap; /* permite que os item salten de fila  */
+}
+
+
+#calendario div { /* fai referencia aos item flex */
+	width: 14.28% ;
+	text-align: center;
+	/*border: 1px solid blue;*/
+}
+
+.dia_actual {
+	color: blue;
+	font-weight: bold;
+}

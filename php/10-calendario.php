@@ -38,9 +38,10 @@ $nomeMes=strftime("%B",$instanteDia1);
 echo "\n\t<h3>$nomeMes $ano</h3>";
 echo "\n\t<div id='calendario'>";
 
-foreach ($variable as $key => $value) {
-	// code...
+foreach ($diasSemana as $dia) {
+	echo "\n\t\t<div>$dia</div>";
 }
+
 
 
 echo "\n\t</div>" // peche do div id='calendario'

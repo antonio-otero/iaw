@@ -22,6 +22,7 @@ $diasSemana = array("LU","MA","ME","XO","VE","SA","DO");
 setlocale(LC_ALL, "galician");
 $mes= (int) strftime("%m"); //con esto sabemos o número de mes actual
 $ano= (int) strftime("%Y"); //con esto sabemos o ano actual
+$dia= (int) strftime("%d"); //con esto sabemos o día actual do mes
 
 if($mes==2) {
 	if( checkdate(2,29,$ano) ) {
@@ -45,23 +46,40 @@ $nomeMes=strftime("%B",$instanteDia1);
 echo "\n\t<h3>$nomeMes $ano</h3>";
 echo "\n\t<div id='calendario'>";
 
-foreach ($diasSemana as $dia) {
-	echo "\n\t\t<div>$dia</div>";
+foreach ($diasSemana as $nomeDia) {
+	echo "\n\t\t<div>$nomeDia</div>";
 }
 
+$numColumna=0;
 for ($i=1; $i < $diaSemDia1  ; $i++) { 
+	$numColumna++;//calculo num columna que imos usar
 	echo "\n\t\t<div></div>";
 }
 
 for ($i=1; $i <= $diasMes[$mes] ; $i++) { 
-	echo "\n\t\t<div>$i</div>";	
+/*	
+	if($i==$dia)
+		echo "\n\t\t<div class='dia_actual'>$i</div>";	
+	 else 
+		echo "\n\t\t<div>$i</div>";	
+*/
+		$numColumna++;//
+
+		$clases="";
+		if($i==$dia) $clases="dia_actual ";
+		if($numColumna==7){
+			$clases.="dia_festivo ";
+			$numColumna=0;
+		}
+		echo "\n\t\t<div class='$clases'>$i</div>";	
+
 }
 
 echo "\n\t</div>" // peche do div id='calendario'
 ?>
 
 </div>
-
+<!-- 
 <hr>
 <div id="contenedor">
 	<h3>Outubro 2021</h3>
@@ -81,14 +99,14 @@ echo "\n\t</div>" // peche do div id='calendario'
 
 		<div>1</div>
 		<div>2</div>
-		<div>3</div>
+		<div class="dia_festivo">3</div>
 		<div>4</div>
 		<div>5</div>
 		<div>6</div>
 		<div>7</div>
 		<div>8</div>
 		<div>9</div>
-		<div>10</div>
+		<div class="">10</div>
 		<div>11</div>
 		<div>12</div>
 		<div>13</div>
@@ -115,7 +133,7 @@ echo "\n\t</div>" // peche do div id='calendario'
 	</div>
 </div>
 
-
+ -->
 	
 </body>
 </html>

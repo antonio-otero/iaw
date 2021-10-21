@@ -23,6 +23,12 @@ h3 {
 }
 
 .dia_actual {
-	color: blue;
+	/*color: blue;*/
 	font-weight: bold;
+	border-bottom: 1px dotted grey;
+}
+
+.dia_festivo {
+	color: red;
+
 }

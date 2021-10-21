@@ -23,6 +23,13 @@ setlocale(LC_ALL, "galician");
 $mes= (int) strftime("%m"); //con esto sabemos o número de mes actual
 $ano= (int) strftime("%Y"); //con esto sabemos o ano actual
 
+if($mes==2) {
+	if( checkdate(2,29,$ano) ) {
+		$diasMes[2]=29;
+	}
+}
+
+
 $instanteDia1=mktime(0,0,0,$mes,1,$ano);
 $diaSemDia1=(int) strftime("%u",$instanteDia1); //calcula en qué dia da semana cae o día 1 (en formato 													//numérico, 1 luns, 2 martes .... 7 domingo)
 
@@ -42,14 +49,20 @@ foreach ($diasSemana as $dia) {
 	echo "\n\t\t<div>$dia</div>";
 }
 
+for ($i=1; $i < $diaSemDia1  ; $i++) { 
+	echo "\n\t\t<div></div>";
+}
 
+for ($i=1; $i <= $diasMes[$mes] ; $i++) { 
+	echo "\n\t\t<div>$i</div>";	
+}
 
 echo "\n\t</div>" // peche do div id='calendario'
 ?>
 
 </div>
 
-
+<hr>
 <div id="contenedor">
 	<h3>Outubro 2021</h3>
 	<div id="calendario">
@@ -84,9 +97,9 @@ echo "\n\t</div>" // peche do div id='calendario'
 		<div>16</div>
 		<div>17</div>
 		<div>18</div>
-		<div class="dia_actual">19</div>
+		<div>19</div>
 		<div>20</div>
-		<div>21</div>
+		<div class="dia_actual">21</div>
 		<div>22</div>
 		<div>23</div>
 		<div>24</div>

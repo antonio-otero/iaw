@@ -11,6 +11,19 @@
 
 <?php
 //xerar un calendario automático, do mes actual (curso)
+function calcularMesAnterior($mes) {
+	$mes--;
+	if($mes<1) $mes=12; //se era xaneiro, paso a decembro do ano anterior
+	return $mes;//devolvemos o cálculo do numero do mes anterior
+}
+
+function calcularMesSeguinte($mes) {
+	$mes++;
+	if($mes>12) $mes=1; //se era decembro, paso a xaneiro do ano seguinte
+	return $mes;//devolvemos o cálculo do numero do mes anterior
+}
+
+
 
 //primeiro: calcular en qué día da semana cae o día 1 do mes en curso.
 
@@ -20,9 +33,20 @@ $diasMes = array(0,31,28,31,30,31,30,31,31,30,31,30,31);
 $diasSemana = array("LU","MA","ME","XO","VE","SA","DO");
 
 setlocale(LC_ALL, "galician");
-$mes= (int) strftime("%m"); //con esto sabemos o número de mes actual
-$ano= (int) strftime("%Y"); //con esto sabemos o ano actual
-$dia= (int) strftime("%d"); //con esto sabemos o día actual do mes
+
+//$mes= (int) strftime("%m"); //con esto sabemos o número de mes actual
+//$ano= (int) strftime("%Y"); //con esto sabemos o ano actual
+
+$mes= $_GET['mes'] ?? strftime("%m"); //se nos pasan parámetro mes, tomamos ese mes, e senon tomamos o mes actual
+
+$mes=(int) $mes;//pasamos o mes de cadea a número
+
+$ano= $_GET['ano'] ?? strftime("%Y"); //se nos pasan o parámetro ano, tomamos ese ano, e senon tomamos o ano acutal
+$ano=(int) $ano; //pasamos o ano de cadea a enteiro
+
+$diaActual= (int) strftime("%d"); //con esto sabemos o día actual do mes
+$mesActual = (int) strftime("%m");
+$anoActual = (int) strftime("%Y");
 
 if($mes==2) {
 	if( checkdate(2,29,$ano) ) {
@@ -42,8 +66,22 @@ var_dump($diaSemDia1);
 echo "<br>este mes ten $diasMes[$mes] dias";
 */
 
-$nomeMes=strftime("%B",$instanteDia1);
-echo "\n\t<h3>$nomeMes $ano</h3>";
+$nomeMes=utf8_encode(strftime("%B",$instanteDia1));
+
+$mesAnt=calcularMesAnterior($mes);
+$anoMesAnt= $mesAnt==12 ? $ano-1 : $ano;
+$mesSeg=calcularMesSeguinte($mes);
+$anoMesSeg= $mesSeg==1 ? $ano+1 : $ano;
+
+echo "\n\t<div id='enlaces'>";
+	echo "\n\t\t<a href='?mes=$mesAnt&ano=$anoMesAnt' title='Mes Anterior'> &lt;&lt;&lt; </a>";
+
+	echo "\n\t<h3>$nomeMes $ano</h3>";
+
+	echo "\n\t\t<a href='?mes=$mesSeg&ano=$anoMesSeg' title='Mes Seguinte'> &gt;&gt;&gt; </a>";
+echo "\n\t</div>"; // peche do div id='enlaces'
+
+
 echo "\n\t<div id='calendario'>";
 
 foreach ($diasSemana as $nomeDia) {
@@ -66,7 +104,7 @@ for ($i=1; $i <= $diasMes[$mes] ; $i++) {
 		$numColumna++;//
 
 		$clases="";
-		if($i==$dia) $clases="dia_actual ";
+		if($i==$diaActual && $mes==$mesActual && $ano==$anoActual) $clases="dia_actual ";
 		if($numColumna==7){
 			$clases.="dia_festivo ";
 			$numColumna=0;
@@ -75,65 +113,11 @@ for ($i=1; $i <= $diasMes[$mes] ; $i++) {
 
 }
 
-echo "\n\t</div>" // peche do div id='calendario'
+echo "\n\t</div>"; // peche do div id='calendario'
+
 ?>
 
 </div>
-<!-- 
-<hr>
-<div id="contenedor">
-	<h3>Outubro 2021</h3>
-	<div id="calendario">
-		<div>LU</div>	
-		<div>MA</div>	
-		<div>ME</div>	
-		<div>XO</div>	
-		<div>VE</div>	
-		<div>SA</div>	
-		<div>DO</div>	
-
-		<div></div>
-		<div></div>
-		<div></div>
-		<div></div>
-
-		<div>1</div>
-		<div>2</div>
-		<div class="dia_festivo">3</div>
-		<div>4</div>
-		<div>5</div>
-		<div>6</div>
-		<div>7</div>
-		<div>8</div>
-		<div>9</div>
-		<div class="">10</div>
-		<div>11</div>
-		<div>12</div>
-		<div>13</div>
-		<div>14</div>
-		<div>15</div>
-		<div>16</div>
-		<div>17</div>
-		<div>18</div>
-		<div>19</div>
-		<div>20</div>
-		<div class="dia_actual">21</div>
-		<div>22</div>
-		<div>23</div>
-		<div>24</div>
-		<div>25</div>
-		<div>26</div>
-		<div>27</div>
-		<div>28</div>
-		<div>29</div>
-		<div>30</div>
-		<div>31</div>
-
-
-	</div>
-</div>
-
- -->
 	
 </body>
 </html>

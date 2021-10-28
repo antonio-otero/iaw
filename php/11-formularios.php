@@ -16,8 +16,11 @@
 	$cdn=$_GET['cdn'] ?? "";
 	$coment=$_GET['coment'] ?? "";
 
+	$dep=$_GET['dep'] ?? array();
+
 	//var_dump($nome);
 	//var_dump($ref);
+	//var_dump($dep);
 ?>
 
 	<form action="" method="GET">
@@ -30,7 +33,7 @@
 		<input type="hidden" name="ref" value="xr55">
 
 		<div class="campos">
-			<label for="">Sexo: </label>
+			<label>Sexo: </label>
 			<input id="home" type="radio" name="sexo" value="H" <?php echo $sexo=='H'?'checked':''  ?> > 
 			<label for="home"> Home </label>
 			<input id="muller" type="radio" name="sexo" value="M" <?php echo $sexo=='M'?'checked':''  ?> > 
@@ -43,8 +46,16 @@
 		</div>
 
 		<div class="campos">
-			<label for="coment">Comentario:</label>
+			<label for="coment">Comentario:</label><br>
 			<textarea name="coment" id="coment"  rows="3"><?php echo $coment ?></textarea>
+		</div>
+
+		<div class="campos">
+			<label>Deportes:</label><br>
+			<input id="futbol" type="checkbox" value="F" name="dep[]" ><label for="futbol"> Fútbol</label>
+			<input id="baloncesto" type="checkbox" value="B" name="dep[]" ><label for="baloncesto"> Baloncesto</label>
+			<input id="natacion" type="checkbox" value="N" name="dep[]" ><label for="natacion"> Natación</label>
+			<input id="atletismo" type="checkbox" value="A" name="dep[]" ><label for="atletismo"> Atletismo</label>
 		</div>
 
 		<div class="campos">
@@ -64,6 +75,9 @@
 	echo "<br>Sexo: $sexo";
 	echo "<br>Condicións: $cdn";
 	echo "<br>Comentario: $coment";
+	echo "<br>Deportes (".count($dep).") : ";
+	
+
 
 ?>
 	</div>

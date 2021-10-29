@@ -8,7 +8,7 @@ function letraDNI($ndni) {
 	   a letra que lle corresponde según algoritmo NIF
 	*/
 
-	$letras="TRWAGMYFPDXBNJZSQVHLCKE";
+	$letras="TtWAGMYFPDXBNJZSQVHLCKE";
 	//       01234567890123456789012
 	//                 1         2
 

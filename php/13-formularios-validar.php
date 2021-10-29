@@ -19,6 +19,12 @@
 	//recibir os datos:
 	$nome=$_GET["nome"]??"";
 	$sexo=$_GET["sexo"]??"";
+	$dni=$_GET["dni"]??"";
+	$letra=$_GET["letra"]??"";
+
+	$letra=strtoupper($letra);
+
+
 
 	//var_dump($_GET);
 	/*
@@ -29,6 +35,7 @@
 	*/
 	
 	$faltanDatos=0; // supoñemos en principio que non faltan datos
+	$dniError=false; //supoñemos en principio que o dni estará ben
 
 ?>	
 
@@ -49,14 +56,29 @@
 			<input type="text" id="nome" name="nome" value="<?php echo $nome ?>" >
 		</div>
 		<?php 
-			
+			if( ($dni=="" || $letra=="") && $_GET) { 
+				$clase="erro";
+				$faltanDatos++; 
+			} elseif($_GET) {
+				//hai dni e letra e formulario enviado
 
+				$letraCalculada=letraDNI( (int) $dni);
+				if($letra==$letraCalculada) { 
+					//dni e letra son correctos, cumplen algoritmo
+					$clase="ok";
+				} else {
+					//a letra non se corresponde con dni
+					$clase="incorrecto";
+					$dniError=true;
+				}
+
+			}
 		?>
 
 		<div class="campos">
-			<label for="dni">DNI/Letra:</label>
-			<input type="text" id="dni" name="dni" size="10" >
-			<input type="text" id="letra" name="letra" size="1">
+			<label for="dni" class="<?php echo $clase ?>">DNI/Letra:</label>
+			<input type="text" id="dni" name="dni" size="5" maxlength="8" value="<?php echo $dni ?>" >
+			<input type="text" id="letra" name="letra" size="1" maxlength="1" value="<?php echo $letra ?>">
 		</div>
 
 		<?php 
@@ -86,11 +108,23 @@
 			<p>Formulario incorrecto, Faltan <?php echo $faltanDatos ?> datos</p>		
 		</div>
 	<?php } 
-	elseif($_GET) {?>
+	elseif($_GET && !$dniError) {?>
 		<div id="correcto">
 			<p>Formulario completo</p>		
 		</div>
-	<?php } ?>	
+	<?php } 
+
+	if($dniError) {
+		echo "\n<div id='incorrecto'>";
+		echo "\n<p>A letra ou o DNI non son correctos</p>";
+		echo "\n</div>";
+	}
+
+
+	?>	
+
+
+
 
 </div>
 

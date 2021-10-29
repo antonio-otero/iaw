@@ -18,6 +18,10 @@
 	color: green;
 }
 
+.incorrecto {
+	color: orange;
+}
+
 #alertas {
 	background-color: tomato;
 	padding: 10px;
@@ -27,3 +31,8 @@
 	background-color: lightgreen;
 	padding: 10px;
 }
+#incorrecto {
+	background-color: orange;
+	padding: 10px;
+}
+

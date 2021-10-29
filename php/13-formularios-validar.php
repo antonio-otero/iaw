@@ -48,8 +48,10 @@
 			<label for="nome" class="<?php echo $clase ?>">Nome:</label><br>
 			<input type="text" id="nome" name="nome" value="<?php echo $nome ?>" >
 		</div>
+		<?php 
+			
 
-
+		?>
 
 		<div class="campos">
 			<label for="dni">DNI/Letra:</label>

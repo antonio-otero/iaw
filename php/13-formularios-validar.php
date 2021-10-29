@@ -24,6 +24,7 @@
 
 	$letra=strtoupper($letra);
 
+	$dep=$_GET['dep'] ?? array(); //se non mandan datos, asumimos un array por defecto, para ter sempre o mesmo tipo de datos
 
 
 	//var_dump($_GET);
@@ -95,6 +96,19 @@
 			<label for="home"> Home </label>
 			<input type="radio" name="sexo" value="M" id="muller" <?php echo $sexo=="M"?"checked":"" ?>>
 			<label for="muller"> Muller</label>
+		</div>
+
+
+		<div class="campos">
+			<label>Deportes:</label><br>
+			<input id="futbol" type="checkbox" value="F" name="dep[]" <?php echo in_array("F",$dep)?'checked':'' ?>>
+			<label for="futbol"> Fútbol</label>
+			<input id="baloncesto" type="checkbox" value="B" name="dep[]" <?php echo in_array("B",$dep)?'checked':'' ?>>
+			<label for="baloncesto"> Baloncesto</label>
+			<input id="natacion" type="checkbox" value="N" name="dep[]" <?php echo in_array("N",$dep)?'checked':'' ?>>
+			<label for="natacion"> Natación</label>
+			<input id="atletismo" type="checkbox" value="A" name="dep[]" <?php echo in_array("A",$dep)?'checked':'' ?>>
+			<label for="atletismo"> Atletismo</label>
 		</div>
 
 

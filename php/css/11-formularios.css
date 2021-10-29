@@ -10,3 +10,20 @@
 .campos {
 	margin-bottom: 10px;
 }
+
+.erro {
+	color: red;
+}
+.ok {
+	color: green;
+}
+
+#alertas {
+	background-color: tomato;
+	padding: 10px;
+}
+
+#correcto {
+	background-color: lightgreen;
+	padding: 10px;
+}

@@ -26,6 +26,8 @@
 
 	$dep=$_GET['dep'] ?? array(); //se non mandan datos, asumimos un array por defecto, para ter sempre o mesmo tipo de datos
 
+	$provincia=$_GET["provincia"]??"";
+
 
 	//var_dump($_GET);
 	/*
@@ -36,8 +38,7 @@
 	*/
 	
 	$faltanDatos=0; // supoñemos en principio que non faltan datos
-	$dniError=false; //supoñemos en principio que o dni estará ben
-
+	$menxases=""; //para indicar menxases de datos incorrectos
 ?>	
 
 
@@ -70,7 +71,7 @@
 				} else {
 					//a letra non se corresponde con dni
 					$clase="incorrecto";
-					$dniError=true;
+					$menxases.="A letra ou o DNI non son correctos<br>";
 				}
 
 			}
@@ -98,9 +99,25 @@
 			<label for="muller"> Muller</label>
 		</div>
 
+		<?php 
+			if(count($dep)<2 && $_GET) { //menos de 2 deportes e formulario enviado
+				//$clase=count($dep)==0?"erro":"incorrecto";
+				if(count($dep)==0) {
+					$clase="erro";
+				} else {
+					$clase="incorrecto";
+					$menxases.="É obrigatorio marcar un mínomo de 2 deportes<br>";
+				}
+
+
+				$faltanDatos++; 
+			} else 
+				$clase=$_GET?"ok":"";
+		?>
+
 
 		<div class="campos">
-			<label>Deportes:</label><br>
+			<label class="<?php echo $clase ?>">Deportes (marcar mínimo 2):</label><br>
 			<input id="futbol" type="checkbox" value="F" name="dep[]" <?php echo in_array("F",$dep)?'checked':'' ?>>
 			<label for="futbol"> Fútbol</label>
 			<input id="baloncesto" type="checkbox" value="B" name="dep[]" <?php echo in_array("B",$dep)?'checked':'' ?>>
@@ -109,6 +126,18 @@
 			<label for="natacion"> Natación</label>
 			<input id="atletismo" type="checkbox" value="A" name="dep[]" <?php echo in_array("A",$dep)?'checked':'' ?>>
 			<label for="atletismo"> Atletismo</label>
+		</div>
+
+
+		<div class="campos">
+			<label for="provincia">Provincia:</label>
+			<select name="provincia" id="provincia">
+				<option value=""></option>
+				<option value="CO" <?php echo $provincia=='CO'?'selected':'' ?>>A Coruña</option>
+				<option value="LU" <?php echo $provincia=='LU'?'selected':'' ?>>Lugo</option>
+				<option value="OU" <?php echo $provincia=='OU'?'selected':'' ?>>Ourense</option>
+				<option value="PO" <?php echo $provincia=='PO'?'selected':'' ?>>Pontevedra</option>
+			</select>
 		</div>
 
 
@@ -122,15 +151,15 @@
 			<p>Formulario incorrecto, Faltan <?php echo $faltanDatos ?> datos</p>		
 		</div>
 	<?php } 
-	elseif($_GET && !$dniError) {?>
+	elseif($_GET && $menxases=="") {?>
 		<div id="correcto">
 			<p>Formulario completo</p>		
 		</div>
 	<?php } 
 
-	if($dniError) {
+	if($menxases!="") {
 		echo "\n<div id='incorrecto'>";
-		echo "\n<p>A letra ou o DNI non son correctos</p>";
+		echo "\n<p>$menxases</p>";
 		echo "\n</div>";
 	}
 

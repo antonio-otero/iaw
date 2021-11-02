@@ -27,6 +27,9 @@
 	$dep=$_GET['dep'] ?? array(); //se non mandan datos, asumimos un array por defecto, para ter sempre o mesmo tipo de datos
 
 	$provincia=$_GET["provincia"]??"";
+	$so=$_GET['so'] ?? array(); //se non mandan datos, asumimos un array por defecto, para ter sempre o mesmo tipo de datos
+
+	$coment=$_GET["coment"]??"";
 
 
 	//var_dump($_GET);
@@ -108,8 +111,6 @@
 					$clase="incorrecto";
 					$menxases.="É obrigatorio marcar un mínomo de 2 deportes<br>";
 				}
-
-
 				$faltanDatos++; 
 			} else 
 				$clase=$_GET?"ok":"";
@@ -128,9 +129,16 @@
 			<label for="atletismo"> Atletismo</label>
 		</div>
 
+		<?php 
+			if($provincia=="" && $_GET) { 
+				$clase="erro";
+				$faltanDatos++; 
+			} else 
+				$clase=$_GET?"ok":"";
+		?>
 
 		<div class="campos">
-			<label for="provincia">Provincia:</label>
+			<label class="<?php echo $clase ?>"  for="provincia">Provincia:</label>
 			<select name="provincia" id="provincia">
 				<option value=""></option>
 				<option value="CO" <?php echo $provincia=='CO'?'selected':'' ?>>A Coruña</option>
@@ -140,6 +148,29 @@
 			</select>
 		</div>
 
+		<?php 
+			if(count($so)==0 && $_GET) { 
+				$clase="erro";
+				$faltanDatos++; 
+			} else 
+				$clase=$_GET?"ok":"";
+		?>
+
+		<div class="campos">
+			<label class="<?php echo $clase ?>" for="so">Sistemas Operativos:</label><br>
+			<select name="so[]" id="so" multiple="" size="5">
+				<option value="W8" <?php echo in_array('W8',$so)?'selected':'' ?>>Windows 8</option>
+				<option value="W10" <?php echo in_array('W10',$so)?'selected':'' ?>>Windows 10</option>
+				<option value="W11" <?php echo in_array('W11',$so)?'selected':'' ?>>Windows 11</option>
+				<option value="LX" <?php echo in_array('LX',$so)?'selected':'' ?>>Linux</option>
+				<option value="MOS" <?php echo in_array('MOS',$so)?'selected':'' ?>>macOS</option>
+			</select>
+		</div>
+
+		<div class="campos">
+			<label for="coment">Comentario (opcional):</label><br>
+			<textarea name="coment" id="coment"  rows="3"><?php echo $coment ?></textarea>
+		</div>
 
 		<div class="campos">
 			<input type="submit" value="Enviar datos">

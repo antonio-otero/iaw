@@ -7,6 +7,10 @@
 </head>
 <body>
 	<h1>Ficheiros en PHP</h1>
+	<?php
 	
+
+
+	?>
 </body>
 </html>

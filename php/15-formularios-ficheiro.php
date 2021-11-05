@@ -184,12 +184,21 @@
 	<?php } 
 	elseif($_GET && $menxases=="") {
 		//gardamos os datos nun ficheiro
-		
+		$ficheiro="datos/datos-formulario.csv";
+		$cf=fopen($ficheiro, "a" );
 
+		$deportes=implode("", $dep); //pasa os deportes a unha cadea sen separación (1 caracter por deporte)
+		$sistemas=implode("*", $so); //pasa os sistemas operativos a unha cadea, separados por '*', (neste caso non todos os códigos teñen a mesma lonxitude)
+		fputs($cf,"$nome;$dni;$letra;$sexo;$deportes;$provincia;$sistemas;$coment\n");
+
+		fclose($cf);
 
 	?>
 		<div id="correcto">
-			<p>Formulario completo</p>		
+			<p>Formulario completo<br>
+			Datos gardados no ficheiro <?php echo $ficheiro ?>
+			<br><a href="?">Novo rexistro</a>
+			</p>		
 		</div>
 	<?php } 
 
@@ -198,13 +207,7 @@
 		echo "\n<p>$menxases</p>";
 		echo "\n</div>";
 	}
-
-
 	?>	
-
-
-
-
 </div>
 
 </body>

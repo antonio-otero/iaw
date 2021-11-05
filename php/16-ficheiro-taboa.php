@@ -23,6 +23,27 @@
 		</tr>	
 
 	<?php
+	$nomeProvincias = array(
+		"CO" => "A Coruña" , 
+		"LU" => "Lugo" , 
+		"OU" => "Ourense" , 
+		"PO" => "Pontevedra"  
+	);
+	$nomeSistemas = array(
+		"W8"  => "Windows 8",
+		"W10" => "Windows 10",
+		"W11" => "Windows 11",
+		"LX"  => "Linux",
+		"MOS" => "macOS"
+	);
+	$nomeDeportes = array(
+		"F" => "Fútbol", 
+		"B" => "Baloncesto", 
+		"N" => "Natación", 
+		"A" => "Atletismo"
+	);
+
+
 	$ficheiro="datos/datos-formulario.csv";
 	$cf=@fopen($ficheiro, "r") or die("<p class='erro'>Erro, o ficheiro '$ficheiro' non existe!!</p>");
 	$rexistro=fgets($cf);
@@ -30,13 +51,30 @@
 		$campos=explode(";", $rexistro);
 		list($nome, $dni, $letra, $sexo, $dep, $provincia, $so, $coment)=$campos;
 		//xerar a fila de táboa cos datos deste rexistro:
+
 		echo "\n\t\t<tr>";
 		echo "\n\t\t\t<td>$nome</td>";
 		echo "\n\t\t\t<td>$dni-$letra</td>";
-		echo "\n\t\t\t<td>$sexo</td>";
-		echo "\n\t\t\t<td>$dep</td>";
-		echo "\n\t\t\t<td>$provincia</td>";
-		echo "\n\t\t\t<td>$so</td>";
+		$textoSexo = $sexo=="H" ? "Home" : "Muller";
+		echo "\n\t\t\t<td>$textoSexo</td>";
+
+		echo "\n\t\t\t<td>";//celda dos deportes
+		for ($i=0; $i < strlen($dep) ; $i++) { 
+			echo "{$nomeDeportes[$dep[$i]]}<br>";
+		}		
+
+		echo "</td>";
+		
+		echo "\n\t\t\t<td>$nomeProvincias[$provincia]</td>";
+
+		echo "\n\t\t\t<td>";//celda dos sistemas operativos
+		$codSo=explode("*", $so);
+		foreach ($codSo as $codigo) {
+			echo "$nomeSistemas[$codigo]<br>";
+		}
+		echo "</td>";
+		
+
 		echo "\n\t\t\t<td>$coment</td>";
 
 		echo "\n\t\t</tr>";

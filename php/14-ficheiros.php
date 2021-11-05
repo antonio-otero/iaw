@@ -9,7 +9,7 @@
 <body>
 	<h1>Ficheiros en PHP</h1>
 	<h3>Lectura de ficheiro csv por liñas completas</h3>
-	<?php
+<?php
 	$ficheiro="datos/datos1.csv";
 	$cf=@fopen($ficheiro, "r") or die("<p class='erro'>Erro, o ficheiro '$ficheiro' non existe!!</p>");
 	//$cf será o controlador de ficheiro. A partir de aquí temos que usar $cf para operacións sobre o ficheiro
@@ -24,7 +24,7 @@
 	?>
 
 	<h3>Lectura de ficheiro csv por campos</h3>
-	<?php
+<?php
 	$ficheiro="datos/datos1.csv";
 	$cf=@fopen($ficheiro, "r") or die("<p class='erro'>Erro, o ficheiro '$ficheiro' non existe!!</p>");
 	//$cf será o controlador de ficheiro. A partir de aquí temos que usar $cf para operacións sobre o ficheiro
@@ -33,9 +33,9 @@
 	//a función feof devolve verdadeiro cando se chega ao final do ficheiro que se está a ler
 	while (!feof($cf)) {//mentres non é final de ficheiro
 		$campos=explode(";", $rexistro);
-		//echo "<br> $campos[0] $campos[1] $campos[2] $campos[3] ";
+		//echo "<br>$campos[0] $campos[1] $campos[2] $campos[3] ";
 		list($nome, $apelidos, $email, $tfno)=$campos;
-		echo "<br> $nome $apelidos $email $tfno ";
+		echo "<br>$nome $apelidos $email $tfno";
 		$rexistro=fgets($cf);
 	}	
 	fclose($cf);
@@ -60,22 +60,33 @@
 		$campos=explode(";", $rexistro);
 		list($nome, $apelidos, $email, $tfno)=$campos;
 		//xerar a fila de táboa cos datos deste rexistro:
+		echo "\n\t\t<tr>";
+		echo "\n\t\t\t<td>$nome</td>";
+		echo "\n\t\t\t<td>$apelidos</td>";
+		echo "\n\t\t\t<td>$email</td>";
+		echo "\n\t\t\t<td>$tfno</td>";
+		echo "\n\t\t</tr>";
 
-		
 		$rexistro=fgets($cf);
 	}	
 	fclose($cf);
-	?>
+?>
+	</table>	
 
 
-	<tr>
-		<td>Ana</td>
-		<td>Fernández Díaz</td>
-		<td>ana@fdiaz.com</td>
-		<td>666555111</td>
-	</tr>
+	<h3>Escribir datos nun ficheiro csv</h3>
 
-</table>	
+	<?php
+	$ficheiro="datos/datos1.csv";
+	$cf=@fopen($ficheiro, "a") or die("<p class='erro'>Erro, o ficheiro '$ficheiro' non existe!!</p>");
+	//o modo 'a' engade ao final do arquivo
+	//o modo 'w' non respeta os datos do arquivo, borra e comeza de novo.
+
+	fputs($cf,"Adrián;Gómez Paz;adrian@gmail.com;612345678\n");
+
+	fclose($cf);
+?>
+
 
 </body>
 </html>

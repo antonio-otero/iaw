@@ -100,7 +100,7 @@
 
 		<div class="campos">
 			<label for="nif" class="<?php echo $clase ?>">NIF:</label>
-			<input type="text" id="nif" name="nif" size="5" maxlength="8" value="<?php echo $nif ?>" >
+			<input type="text" id="nif" name="nif" size="7" maxlength="9" value="<?php echo $nif ?>" >
 		</div>
 
 		<?php 
@@ -218,7 +218,7 @@
 		$sistemas=implode("*", $so); //pasa os sistemas operativos a unha cadea, separados por '*', (neste caso non todos os códigos teñen a mesma lonxitude)
 
 		$sql="INSERT INTO `alumnos` (`nome`, `nif`, `clave`, `sexo`, `deportes`, `provincia`, `so`, `comentario`) VALUES
-		('$nome','$dni$letra','".hash('md5',$clave)."','$sexo','$deportes','$provincia','$sistemas','$coment')";
+		('$nome','$nif','".hash('md5',$clave)."','$sexo','$deportes','$provincia','$sistemas','$coment')";
 
 		// @mysqli_query($c,$sql) or die ("<p>Erro ao executar a sentenza sql:<br><strong>$sql</strong>
 		// 						<br>Erro número:".mysqli_errno($c).

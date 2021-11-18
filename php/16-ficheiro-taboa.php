@@ -59,20 +59,24 @@
 		echo "\n\t\t\t<td>$textoSexo</td>";
 
 		echo "\n\t\t\t<td>";//celda dos deportes
+		echo "\n\t\t\t\t<ol>";
 		for ($i=0; $i < strlen($dep) ; $i++) { 
-			echo "{$nomeDeportes[$dep[$i]]}<br>";
+			echo "\n\t\t\t\t\t<li>{$nomeDeportes[$dep[$i]]}</li>";
 		}		
 
-		echo "</td>";
+		echo "\n\t\t\t\t</ol>";
+		echo "\n\t\t\t</td>";
 		
 		echo "\n\t\t\t<td>$nomeProvincias[$provincia]</td>";
 
 		echo "\n\t\t\t<td>";//celda dos sistemas operativos
+		echo "\n\t\t\t\t<ul>";
 		$codSo=explode("*", $so);
 		foreach ($codSo as $codigo) {
-			echo "$nomeSistemas[$codigo]<br>";
+			echo "\n\t\t\t\t\t<li>$nomeSistemas[$codigo]</li>";
 		}
-		echo "</td>";
+		echo "\n\t\t\t\t<ul>";
+		echo "\n\t\t\t</td>";
 		
 
 		echo "\n\t\t\t<td>$coment</td>";

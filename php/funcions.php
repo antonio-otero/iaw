@@ -8,7 +8,7 @@ function letraDNI($ndni) {
 	   a letra que lle corresponde según algoritmo NIF
 	*/
 
-	$letras="TtWAGMYFPDXBNJZSQVHLCKE";
+	$letras="TRWAGMYFPDXBNJZSQVHLCKE";
 	//       01234567890123456789012
 	//                 1         2
 
@@ -18,6 +18,14 @@ function letraDNI($ndni) {
 
 }
 
+function validarNif($nif) {
+	$nif=strtoupper($nif);
+	//12345678A
+
+	$dni=substr($nif, 0, -1 );//extrae todos os caracteres de $nif agás o último
+	$letra=substr($nif, -1);//extrae o último caracter 
+
+}
 
 
 

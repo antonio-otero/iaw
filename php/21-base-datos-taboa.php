@@ -9,20 +9,7 @@
 <body>
 <div class="container">
 	<h1>Mostrar datos da táboa 'alumnos' da base de datos 'iaw21-22'</h1>
-
-
-	<table class="table table-striped">	
-		<tr>
-			<th>Nome</th>
-			<th>DNI-Letra</th>
-			<th>Sexo</th>
-			<th>Deportes</th>
-			<th>Provincia</th>
-			<th>Sistemas O.</th>
-			<th>Comentario</th>
-		</tr>	
-
-	<?php
+<?php 
 	$nomeProvincias = array(
 		"CO" => "A Coruña" , 
 		"LU" => "Lugo" , 
@@ -42,17 +29,38 @@
 		"N" => "Natación", 
 		"A" => "Atletismo"
 	);
-	require "datos-conexion-BD";
+	require "datos-conexion-BD.php";
+	require "funcions.php";
 	
+	$c=conexionBaseDatos($servidorBD,$usuarioBD,$claveBD,$baseDatos,$puerto);
+	
+	$sql="SELECT * FROM alumnos ORDER BY provincia,nome";
 
-	while () {//mentres non é final de ficheiro
-		$campos=explode(";", $rexistro);
-		list($nome, $dni, $letra, $sexo, $dep, $provincia, $so, $coment)=$campos;
+	$resultado=enviarConsultaBD($c,$sql);
+
+	$numFilas=mysqli_num_rows($resultado);//devolve o número de filas seleccionadas por unha SELECT
+?>
+
+	<table class="table table-striped caption-top">	
+		<caption><?php echo "$numFilas rexistros:" ?> </caption>
+		<tr>
+			<th>Nome</th>
+			<th>DNI-Letra</th>
+			<th>Sexo</th>
+			<th>Deportes</th>
+			<th>Provincia</th>
+			<th>Sistemas O.</th>
+			<th>Comentario</th>
+		</tr>	
+
+	<?php
+	while($fila=mysqli_fetch_row($resultado)) {
+		list($id,$nome,$nif,$clave,$sexo,$dep,$provincia,$so,$coment)=$fila;
 		//xerar a fila de táboa cos datos deste rexistro:
 
 		echo "\n\t\t<tr>";
 		echo "\n\t\t\t<td>$nome</td>";
-		echo "\n\t\t\t<td>$dni-$letra</td>";
+		echo "\n\t\t\t<td>$nif</td>";
 		$textoSexo = $sexo=="H" ? "Home" : "Muller";
 		echo "\n\t\t\t<td>$textoSexo</td>";
 
@@ -82,6 +90,10 @@
 		echo "\n\t\t</tr>";
 
 	}	
+
+	mysqli_close($c);//pecha a conexión coa base de datos
+
+
 	
 ?>
 	</table>	

@@ -46,5 +46,25 @@ function validarNif($nif) {
 }
 
 
+function conexionBaseDatos($servidorBD,$usuarioBD,$claveBD,$baseDatos,$puerto) {
+	$c=mysqli_connect($servidorBD,$usuarioBD,$claveBD,$baseDatos,$puerto) or die ("<p>Erro conectando co servidor de bases de datos localhost<br></p>");
+
+	$sql="SET NAMES 'utf8'";
+	@mysqli_query($c,$sql) or die ("<p>Erro ao executar a sentenza sql:<br><strong>$sql</strong>
+								<br>Erro número:".mysqli_errno($c).
+								"<br>Descrición erro:".mysqli_error($c).
+								"</p>"
+								);
+	return $c;
+}
+
+function enviarConsultaBD($c,$sql) {
+	$resultado=@mysqli_query($c,$sql) or die ("<p>Erro ao executar a sentenza sql:<br><strong>$sql</strong>
+		<br>Erro número:".mysqli_errno($c).
+		"<br>Descrición erro:".mysqli_error($c).
+		"</p>"
+	);
+	return $resultado;
+}
 
 ?>

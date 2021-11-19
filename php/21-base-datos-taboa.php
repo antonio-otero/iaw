@@ -10,6 +10,9 @@
 <div class="container">
 	<h1>Mostrar datos da táboa 'alumnos' da base de datos 'iaw21-22'</h1>
 <?php 
+	$sexo=$_GET['sexo']??"";
+	$provincia=$_GET['provincia']??"";
+
 	$nomeProvincias = array(
 		"CO" => "A Coruña" , 
 		"LU" => "Lugo" , 
@@ -33,16 +36,44 @@
 	require "funcions.php";
 	
 	$c=conexionBaseDatos($servidorBD,$usuarioBD,$claveBD,$baseDatos,$puerto);
-	
-	$sql="SELECT * FROM alumnos ORDER BY provincia,nome";
+
+	$filtro="";
+	if($sexo!=""){
+		$filtro.=" and sexo='$sexo'";
+	}
+
+	$sql="SELECT * FROM alumnos WHERE 1 $filtro ORDER BY provincia,nome";
 
 	$resultado=enviarConsultaBD($c,$sql);
 
 	$numFilas=mysqli_num_rows($resultado);//devolve o número de filas seleccionadas por unha SELECT
 ?>
+	<div class="formulario">
+		<form action="" method="GET">
+			<input type="radio" name="sexo" value="H" id="home" <?php echo $sexo=="H"?"checked":"" ?>>
+			<label for="home"> Home </label>
+			<input type="radio" name="sexo" value="M" id="muller" <?php echo $sexo=="M"?"checked":"" ?>>
+			<label for="muller"> Muller</label>
+
+			<label for="provincia">Provincia:</label>
+			<select name="provincia" id="provincia">
+				<option value=""></option>
+				<option value="CO" <?php echo $provincia=='CO'?'selected':'' ?>>A Coruña</option>
+				<option value="LU" <?php echo $provincia=='LU'?'selected':'' ?>>Lugo</option>
+				<option value="OU" <?php echo $provincia=='OU'?'selected':'' ?>>Ourense</option>
+				<option value="PO" <?php echo $provincia=='PO'?'selected':'' ?>>Pontevedra</option>
+			</select>
+
+
+			<input class="btn btn-primary" type="submit" value="Filtrar">
+			<a href="?" class="btn btn-primary">Eliminar filtro</a>
+			
+		</form>
+		
+	</div>
 
 	<table class="table table-striped caption-top">	
-		<caption><?php echo "$numFilas rexistros:" ?> </caption>
+		<caption><?php echo "$sql -> $numFilas rexistros:" ?> </caption>
 		<tr>
 			<th>Nome</th>
 			<th>DNI-Letra</th>

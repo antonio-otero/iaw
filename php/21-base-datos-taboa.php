@@ -12,6 +12,7 @@
 <?php 
 	$sexo=$_GET['sexo']??"";
 	$provincia=$_GET['provincia']??"";
+	$orden=$_GET['orden']??"";
 
 	$nomeProvincias = array(
 		"CO" => "A Coruña" , 
@@ -38,11 +39,24 @@
 	$c=conexionBaseDatos($servidorBD,$usuarioBD,$claveBD,$baseDatos,$puerto);
 
 	$filtro="";
+	$filtroGet="";
 	if($sexo!=""){
 		$filtro.=" and sexo='$sexo'";
+		$filtroGet.="&sexo=$sexo";
+	}
+	if($provincia!=""){
+		$filtro.=" and provincia='$provincia'";
+		$filtroGet.="&provincia=$provincia";
 	}
 
-	$sql="SELECT * FROM alumnos WHERE 1 $filtro ORDER BY provincia,nome";
+	$ordenar="provincia,nome";//ordenación por defecto
+
+	if($orden!="") {
+		$ordenar=$orden;
+	} 
+
+
+	$sql="SELECT * FROM alumnos WHERE 1 $filtro ORDER BY $ordenar";
 
 	$resultado=enviarConsultaBD($c,$sql);
 
@@ -55,7 +69,7 @@
 			<input type="radio" name="sexo" value="M" id="muller" <?php echo $sexo=="M"?"checked":"" ?>>
 			<label for="muller"> Muller</label>
 
-			<label for="provincia">Provincia:</label>
+			<label class="m-3" for="provincia">Provincia:</label>
 			<select name="provincia" id="provincia">
 				<option value=""></option>
 				<option value="CO" <?php echo $provincia=='CO'?'selected':'' ?>>A Coruña</option>
@@ -65,8 +79,8 @@
 			</select>
 
 
-			<input class="btn btn-primary" type="submit" value="Filtrar">
-			<a href="?" class="btn btn-primary">Eliminar filtro</a>
+			<input class="m-3 btn btn-primary" type="submit" value="Filtrar">
+			<a href="?" class=" btn btn-primary">Eliminar filtro</a>
 			
 		</form>
 		
@@ -75,11 +89,11 @@
 	<table class="table table-striped caption-top">	
 		<caption><?php echo "$sql -> $numFilas rexistros:" ?> </caption>
 		<tr>
-			<th>Nome</th>
+			<th><a href="<?php echo "?orden=nome$filtroGet" ?>" >&#8593; Nome</a></th>
 			<th>DNI-Letra</th>
-			<th>Sexo</th>
+			<th><a href="<?php echo "?orden=sexo$filtroGet" ?>">&#8593; Sexo</a></th>
 			<th>Deportes</th>
-			<th>Provincia</th>
+			<th><a href="<?php echo "?orden=provincia$filtroGet" ?>">&#8593; Provincia</a></th>
 			<th>Sistemas O.</th>
 			<th>Comentario</th>
 		</tr>	

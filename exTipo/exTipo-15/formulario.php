@@ -77,12 +77,20 @@
   </form>
 
   <?php 
+  /*
   $nom=isset($_POST["nom"])?$_POST["nom"]:"";
   $dir=isset($_POST["dir"])?$_POST["dir"]:"";
   $ingre=isset($_POST["ingre"])?$_POST["ingre"]:"";
   $tam=isset($_POST["tam"])?$_POST["tam"]:"";
   $fpago=isset($_POST["fpago"])?$_POST["fpago"]:"";
   $ins=isset($_POST["ins"])?$_POST["ins"]:"";
+  */
+  $nom=$_POST["nom"]??"";
+  $dir=$_POST["dir"]??"";
+  $ingre=$_POST["ingre"]??array();
+  $tam=$_POST["tam"]??"";
+  $fpago=$_POST["fpago"]??"";
+  $ins=$_POST["ins"]??"";
 
   $enviado=isset($_POST["enviar"])?true:false;
 

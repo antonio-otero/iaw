@@ -1,1 +1,7 @@
 Nombre1 Apellidos1;Dirección1;QP;12;1;sin borde
+German;Vilalba;QC;12;2;sin picante
+Ana diaz;Lugo,;QP;10;1;con picante
+www;www;Q;12;1;www
+nombreeeeee;direcciÃ³nnnn;QPC;16;1;templada
+;;Q;;;
+dd;ddd;Q;12;1;ddd

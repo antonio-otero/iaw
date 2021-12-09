@@ -87,17 +87,19 @@
   Al final de cada línea debemos grabar un salto de línea (\n).   
   */     
 
-  $nom=isset($_POST["nom"])?$_POST["nom"]:"";
-  $dir=isset($_POST["dir"])?$_POST["dir"]:"";
-  $ingre=isset($_POST["ingre"])?$_POST["ingre"]:"";
-  $tam=isset($_POST["tam"])?$_POST["tam"]:"";
-  $fpago=isset($_POST["fpago"])?$_POST["fpago"]:"";
-  $ins=isset($_POST["ins"])?$_POST["ins"]:"";
+  $nom=$_POST["nom"]??"";
+  $dir=$_POST["dir"]??"";
+  $ingre=$_POST["ingre"]??array();
+  $tam=$_POST["tam"]??"";
+  $fpago=$_POST["fpago"]??"";
+  $ins=$_POST["ins"]??"";
 
-  $enviado=isset($_POST["enviar"])?true:false;
+  //$enviado=isset($_POST["enviar"])?true:false;
 
-  if ($enviado) {
-    if (!empty($nom) and !empty($dir) and !empty($ingre) and !empty($tam) and !empty($fpago) and !empty($ins)) {
+  if ($_POST) {//foi enviado o formulario
+    //if (!empty($nom) and !empty($dir) and !empty($ingre) and !empty($tam) and !empty($fpago) and !empty($ins)) {
+    /*
+    if($nom!="" and $dir!="" and count($ingre)>0 and $tam!="" and $fpago!="" and $ins!="" )  {
         echo "<h2 class='aceptado'>Formulario aceptado</h2><br>";
         $f1="formulario.txt";  
         $id_f1=@fopen($f1,"a") or die("El fichero $f1 no se ha podido abrir.");
@@ -107,7 +109,25 @@
     } else {
         echo "<h2 class='noaceptado'>Faltan campos por cubrir</h2><br>";
     }
+    */
+    if($nom=="" or $dir=="" or count($ingre)==0 or $tam=="" or $fpago=="" or $ins=="" )  {//falta algún campo
+        echo "<h2 class='noaceptado'>Faltan campos por cubrir</h2><br>";
+
+    }  else {
+        echo "<h2 class='aceptado'>Formulario aceptado</h2><br>";
+        $f1="formulario.txt";  
+        $id_f1=@fopen($f1,"a") or die("El fichero $f1 no se ha podido abrir.");
+        $ingredientes=implode("", $ingre);
+        fputs($id_f1,"$nom;$dir;$ingredientes;$tam;$fpago;$ins\n");
+        fclose($id_f1);
+
+    }
+
+
+
   }
+
+
 
   ?> 
 

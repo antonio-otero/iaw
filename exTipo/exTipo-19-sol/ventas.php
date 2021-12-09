@@ -44,12 +44,12 @@
 
 	$vProv = array('A Coruña' => 0 ,'Lugo' => 0 ,'Ourense' => 0 ,'Pontevedra' => 0 );
 	$cProv = array('A Coruña' => "co" ,'Lugo' => "lu" ,'Ourense' => "ou" ,'Pontevedra' => "po");
-
+/*
 	$totalVentasCo=0;
 	$totalVentasLu=0;
 	$totalVentasOu=0;
 	$totalVentasPo=0;
-
+*/
 	//          0  1  2  3  4  5  6  7  8  9  10 11 12
 	$n=0; // para ir contando el número de líneas que muestro en la tabla
 	$fichero="ventas.csv";
@@ -57,13 +57,15 @@
 	$linea=fgets($cursor);
 	while (!feof($cursor)) { //mientras no es fin de fichero tratamos la información
 	  $registro=explode(";",$linea); //separo cada campo en array $registro (nif y provincia) 
-		$fecha=$registro[0]; 
-		$importe=$registro[1]; 
-		$provincia=$registro[2];
-		
-		$vProv[$provincia]+=$importe;
 
-		$color=$cProv[$provincia];	 
+		//$fecha=$registro[0]; 
+		//$importe=$registro[1]; 
+		//$provincia=$registro[2];
+
+		list($fecha,$importe,$provincia)=$registro;
+		
+		$vProv[$provincia]+=$importe; //acumulamos ventas da provincia
+		$color=$cProv[$provincia];	 //calculamos color da provincia
 /*		
 		$color="";
 		if($provincia=="A Coruña") {
@@ -82,7 +84,7 @@
 			$color="po";
 			$totalVentasPo+="$importe";
 		}
-*/		
+*/	
 
 		$n++;   // cuento una línea
 		echo "<tr class='$color'>\n";
@@ -98,16 +100,18 @@
 	fclose($cursor);
 
 	 ?>
+
 	</table>
 	<p>&nbsp;</p>
+
 	<table >
 	<caption><h1>Resumen ventas 2019</h1></caption>
 	<tr>
 	   <th>Provincia</th>
 	   <th>Importe</th>
-	</tr>
+	</tr> 
 	<?php 
-	$color="class='gris'";
+	
 	$totalventas=0; //iniciamos el acumulador total de ventas
 	foreach ($vProv as $nomProv => $ventaProv) {
 	  $color=$cProv[$nomProv];	 
@@ -124,9 +128,10 @@
 	  echo "</tr>\n";
 
 	 ?>
+
 	</table>
 
-<!-- 	</table>
+<!--
 	<p>&nbsp;</p>
 	<table >
 	<caption><h1>Resumen ventas 2019</h1></caption>
@@ -154,7 +159,9 @@
 		<th class='centro' >T O T A L E S </th>
 		<th class='dcha'> <?php echo $totalVentasPo+$totalVentasOu+$totalVentasLu+$totalVentasCo  ?> </th>
 	</tr>
- -->
-</div> 
+ </table>
+-->
+
+ </div> 
 </body>
 </html>

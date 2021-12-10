@@ -24,12 +24,19 @@ function dias_festivos($ano,$mes) {
 	    or die ("<p>Error al ejecutar la sentencia SQL: $sql</p>
 	        <p>Error número:".mysqli_errno($c)."</p>
 	        <p>".mysqli_error($c)."</p>");
-    
-    for ($i=1;$i<=31;$i++) $df[$i]=0; //en principio ningún festivo
-		
+	/*    
+    for ($i=1;$i<=31;$i++) {
+    	$df[$i]=0; //en principio ningún festivo
+    }
+    */
+    //o for fai o seguinte array:
+	//$df = array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);	
+
+    $df = array();//array para gardar os días festivos, como valor
     while($fila = mysqli_fetch_row($result))
     {
-        $df[$fila[0]]=1;
+        //$df[$fila[0]]=1;
+        $df[]=$fila[0];
     }
     mysqli_close($c);
 	return $df; //retorna array con 1 en las posiciones de dias festivos
@@ -83,7 +90,7 @@ if ($mesSig==13) { // si el mes actual es diciembre
 }
 
 $df=dias_festivos($ano,$mes); //consultamos los festivos del mes que vamos a representar
-
+//var_dump($df);
 ?>	
 
 <div id="contenedor">
@@ -121,10 +128,13 @@ $df=dias_festivos($ano,$mes); //consultamos los festivos del mes que vamos a rep
 		}*/
 		if (strftime("%w",mktime(0,0,0,$mes,$dia,$ano))==0) //hace el trabajo de $contadorDias
 			$clase="domingo";
-		if($diaActual==$dia and $mesActual==$mes & $anoActual==$ano) 
+		if($diaActual==$dia and $mesActual==$mes & $anoActual==$ano) {
 		 	$clase.=" diaActual";
-		if ($df[$dia]) 
+		}
+		//if ($df[$dia]) {
+		if (in_array($dia, $df)) {//busca si existe $dia en el array $df (festivos)
 			$clase.=" festivo"; 
+		}
 		echo "\n\t<div class='dia $clase'>$dia</div>";
 	}
  ?>

@@ -44,6 +44,27 @@
 
 	$vProv = array('A Coruña' => 0 ,'Lugo' => 0 ,'Ourense' => 0 ,'Pontevedra' => 0 );
 	$cProv = array('A Coruña' => "co" ,'Lugo' => "lu" ,'Ourense' => "ou" ,'Pontevedra' => "po");
+
+
+	$nomeMeses=array("","Xaneiro","Febreiro","Marzo","Abril","Maio","Xuño","Xullo","Agosto","Setembro","Outubro","Novembro","Decembro");
+
+	$vMes2 = array ('01' => 0,
+									'02' => 0,
+									'03' => 0,
+									'04' => 0,
+									'05' => 0,
+									'06' => 0,
+									'07' => 0,
+									'08' => 0,
+									'09' => 0,
+									'10' => 0,
+									'11' => 0,
+									'12' => 0
+								);
+
+	$vMes = array(0,0,0,0,0,0,0,0,0,0,0,0,0);
+	//            0,1,2,3,4,5,6,7,8,9,0,1,2  
+	//                                1 1 1 
 /*
 	$totalVentasCo=0;
 	$totalVentasLu=0;
@@ -66,6 +87,16 @@
 		
 		$vProv[$provincia]+=$importe; //acumulamos ventas da provincia
 		$color=$cProv[$provincia];	 //calculamos color da provincia
+
+		//acumulamos ventas mes, con array estandard, con índices numéricos
+		$mes= (int) substr($fecha, 3, 2); //02/01/19, a partir da posición 3, 2 caracteres = mes
+		$vMes[$mes]+=$importe;
+
+		//feito con array asociativo $vMes2
+		$mes2=substr($fecha, 3, 2);
+		$vMes2[$mes2]+=$importe;
+
+
 /*		
 		$color="";
 		if($provincia=="A Coruña") {
@@ -98,14 +129,16 @@
 	}
 
 	fclose($cursor);
-
+		var_dump($vMes);
+		echo "<hr>";
+		var_dump($vMes2);
 	 ?>
 
 	</table>
 	<p>&nbsp;</p>
 
 	<table >
-	<caption><h1>Resumen ventas 2019</h1></caption>
+	<caption><h1>Resumen ventas 2019 por provincia</h1></caption>
 	<tr>
 	   <th>Provincia</th>
 	   <th>Importe</th>
@@ -130,6 +163,37 @@
 	 ?>
 
 	</table>
+
+	<table >
+	<caption><h1>Resumen ventas 2019 por mes</h1></caption>
+	<tr>
+	   <th>Mes</th>
+	   <th>Importe</th>
+	</tr> 
+
+	<?php 
+	
+	$totalventas=0; //iniciamos el acumulador total de ventas
+	foreach ($vMes as $nMes => $ventaMes) {
+		if($nMes==0) continue;//vamos á seguinte iteración (é dicir ir a nMes=1)
+	  echo "<tr>\n";
+	  echo "\t<td class='centro'>$nomeMeses[$nMes]</td>\n";
+	  echo "\t<td class='dcha'>$ventaMes € </td>\n";
+	  echo "</tr>\n";
+		$totalventas+=$ventaMes; //vamos acumulando las ventas de cada mes
+
+	}
+	  echo "<tr>\n";
+	  echo "\t<th class='centro'>T O T A L E S</th>\n";
+	  echo "\t<th class='dcha'>$totalventas €</th>\n";
+	  echo "</tr>\n";
+
+	 ?>
+
+	</table>
+
+
+
 
 <!--
 	<p>&nbsp;</p>

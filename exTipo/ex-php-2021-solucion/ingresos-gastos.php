@@ -27,6 +27,8 @@
 	.gris {background-color: lightgrey;}
 	.blanco {background-color: white;}
 
+	.nomeProvincia {background-color: black; color: white;}
+
 </style>
 </head>
 <body>
@@ -55,6 +57,34 @@
 	//            0,1,2,3,4,5,6,7,8,9,0,1,2  
 	//                                1 1 1 
 
+	$iProv = array(
+									'A Coruña' 	=> 0,
+									'Lugo'			=> 0,
+									'Ourense'		=> 0,
+									'Pontevedra'=> 0
+			 					);
+	$gProv = array(
+									'A Coruña' 	=> 0,
+									'Lugo'			=> 0,
+									'Ourense'		=> 0,
+									'Pontevedra'=> 0
+			 					);
+
+	//$iProvMes['A Coruña'][1];//Ingresos de enero de 'A Coruña';
+
+	$iProvMes = array(
+										'A Coruña' 		=> array(0,0,0,0,0,0,0,0,0,0,0,0), 
+										'Lugo' 				=> array(0,0,0,0,0,0,0,0,0,0,0,0), 
+										'Ourense' 		=> array(0,0,0,0,0,0,0,0,0,0,0,0), 
+										'Pontevedra' 	=> array(0,0,0,0,0,0,0,0,0,0,0,0) 
+									);
+	$gProvMes = array(
+										'A Coruña' 		=> array(0,0,0,0,0,0,0,0,0,0,0,0), 
+										'Lugo' 				=> array(0,0,0,0,0,0,0,0,0,0,0,0), 
+										'Ourense' 		=> array(0,0,0,0,0,0,0,0,0,0,0,0), 
+										'Pontevedra' 	=> array(0,0,0,0,0,0,0,0,0,0,0,0) 
+									);
+
 	$n=0; // para ir contando el número de líneas que muestro en la tabla
 	$fichero="ingresos-gastos-2020.csv";
 	$cursor=@fopen($fichero,"r") or die ("<br>Error al abrir el fichero $fichero"); 
@@ -71,6 +101,12 @@
 		$iMes[$mes]+=$ingresos;
 		$gMes[$mes]+=$gastos;
 
+		$iProv[$provincia]+=$ingresos;
+		$gProv[$provincia]+=$gastos;
+
+		$iProvMes[$provincia][$mes-1]+=$ingresos;
+		$gProvMes[$provincia][$mes-1]+=$gastos;
+
 
 		$n++;   // cuento una línea
 		echo "<tr class='$color'>\n";
@@ -86,6 +122,10 @@
 
 	fclose($cursor);
 
+	//var_dump($iProvMes);
+	//echo "<hr>";
+	//var_dump($gProvMes);
+
 	 ?>
 	</table>
 
@@ -93,7 +133,7 @@
 
 	<p>&nbsp;</p>
 	<table >
-	<caption><h1>Resumen ingresos/gastos 2020</h1></caption>
+	<caption><h1>Resumen ingresos/gastos 2020 por mes</h1></caption>
 	<tr>
 	   <th>Mes</th>
 	   <th>Ingresos</th>
@@ -128,8 +168,158 @@
 	  echo "</tr>\n";
 
 	 ?>	
-	 ?>
+	 
 	</table>
+
+
+	<p>&nbsp;</p>
+	<table >
+	<caption><h1>Resumen ingresos/gastos 2020 por provincia</h1></caption>
+	<tr>
+	   <th>Provincia</th>
+	   <th>Ingresos</th>
+	   <th>Gastos</th>
+	   <th>Neto</th>
+	</tr>
+	<?php 
+		//código que genera las filas de la tabla resumen ingresos/gastos
+
+
+	$tot_I=0; //iniciamos el acumulador total de ingresos
+	$tot_G=0; //iniciamos el acumulador total de gastos
+	$color="gris"; //color da primeira fila
+	foreach ($iProv as $provincia => $ingresos) {
+		echo "<tr class='$color'>\n";
+	  echo "\t<td class='centro'>$provincia</td>\n";
+	  echo "\t<td class='dcha'>$ingresos € </td>\n";
+	  echo "\t<td class='dcha'>$gProv[$provincia] € </td>\n";
+	  $neto=$ingresos-$gProv[$provincia];
+	  echo "\t<td class='dcha'>$neto € </td>\n";
+	  echo "</tr>\n";
+		$tot_I+=$ingresos;//acumulo todos os ingresos de todos os meses
+		$tot_G+=$gProv[$provincia];//acumulo todos os gastos de todos os meses
+		$color=$color=="gris"?"blanco":"gris";
+	}
+	  echo "<tr>\n";
+	  echo "\t<th class='centro'>T O T A L E S</th>\n";
+	  echo "\t<th class='dcha'>$tot_I €</th>\n";
+	  echo "\t<th class='dcha'>$tot_G €</th>\n";
+	  $tot_N=$tot_I-$tot_G;
+	  echo "\t<th class='dcha'>$tot_N €</th>\n";
+	  echo "</tr>\n";
+
+	 ?>	
+	 
+	</table>
+
+
+
+	<p>&nbsp;</p>
+	<table >
+	<caption><h1>Resumen ingresos/gastos 2020 por provincia y mes</h1></caption>
+	<tr>
+	   <th>Provincia</th>
+	   <th>Mes</th>
+	   <th>Ingresos</th>
+	   <th>Gastos</th>
+	   <th>Neto</th>
+	</tr>
+	<?php 
+		//código que genera las filas de la tabla resumen ingresos/gastos
+
+
+	$tot_I=0; //iniciamos el acumulador total de ingresos
+	$tot_G=0; //iniciamos el acumulador total de gastos
+	$color="gris"; //color da primeira fila
+	foreach ($iProvMes as $provincia => $ingresosMes) {
+		foreach ($ingresosMes as $nMes => $ingresos) {
+				echo "<tr class='$color'>\n";
+			  echo "\t<td class='centro'>$provincia</td>\n";
+			  echo "\t<td class='centro'>".$nomeMeses[$nMes+1]."</td>\n";
+			  echo "\t<td class='dcha'>$ingresos € </td>\n";
+			  echo "\t<td class='dcha'>{$gProvMes[$provincia][$nMes]} € </td>\n";
+			  $neto=$ingresos-$gProvMes[$provincia][$nMes];
+			  echo "\t<td class='dcha'>$neto € </td>\n";
+			  echo "</tr>\n";
+				$tot_I+=$ingresos;//acumulo todos os ingresos de todos os meses
+				$tot_G+=$gProvMes[$provincia][$nMes];//acumulo todos os gastos de todos os meses
+				$color=$color=="gris"?"blanco":"gris";
+		}
+	}
+	  echo "<tr>\n";
+	  echo "\t<th class='centro' colspan='2'>T O T A L E S</th>\n";
+	  echo "\t<th class='dcha'>$tot_I €</th>\n";
+	  echo "\t<th class='dcha'>$tot_G €</th>\n";
+	  $tot_N=$tot_I-$tot_G;
+	  echo "\t<th class='dcha'>$tot_N €</th>\n";
+	  echo "</tr>\n";
+
+	 ?>	
+	 
+	</table>
+
+
+	<p>&nbsp;</p>
+	<table >
+	<caption><h1>Resumen ingresos/gastos 2020 por provincia y mes (v.2)</h1></caption>
+	<tr>
+	   <th>Mes</th>
+	   <th>Ingresos</th>
+	   <th>Gastos</th>
+	   <th>Neto</th>
+	</tr>
+	<?php 
+		//código que genera las filas de la tabla resumen ingresos/gastos
+
+
+	$tot_I=0; //iniciamos el acumulador total de ingresos
+	$tot_G=0; //iniciamos el acumulador total de gastos
+	$color="gris"; //color da primeira fila
+	foreach ($iProvMes as $provincia => $ingresosMes) {
+				$tot_I_P=0;//iniciamos el acumulador total de ingresos por provincia
+				$tot_G_P=0;//iniciamos el acumulador total de gastos por provincia
+				echo "<tr class='nomeProvincia'>\n";
+			  echo "\t<th colspan='4' class='centro'>$provincia</td>\n";
+			  echo "</th>\n";
+				foreach ($ingresosMes as $nMes => $ingresos) {
+						echo "<tr class='$color'>\n";
+			  		echo "\t<td class='centro'>".$nomeMeses[$nMes+1]."</td>\n";
+			  		echo "\t<td class='dcha'>$ingresos € </td>\n";
+			  		echo "\t<td class='dcha'>{$gProvMes[$provincia][$nMes]} € </td>\n";
+			  		$neto=$ingresos-$gProvMes[$provincia][$nMes];
+			  		echo "\t<td class='dcha'>$neto € </td>\n";
+			  		echo "</tr>\n";
+						$tot_I_P+=$ingresos;//acumulo todos os ingresos de todos os meses
+						$tot_G_P+=$gProvMes[$provincia][$nMes];//acumulo todos os gastos de todos os meses
+						$color=$color=="gris"?"blanco":"gris";
+				}
+			  echo "<tr class='nomeProvincia'>\n";
+			  echo "\t<th class='centro' >TOTAL $provincia</th>\n";
+			  echo "\t<th class='dcha'>$tot_I_P €</th>\n";
+			  echo "\t<th class='dcha'>$tot_G_P €</th>\n";
+			  $tot_N=$tot_I_P-$tot_G_P;
+			  echo "\t<th class='dcha'>$tot_N €</th>\n";
+			  echo "</tr>\n";
+
+			  echo "<tr><td colspan='4'> </td></tr>";//fila de separación
+				$tot_I+=$tot_I_P;
+				$tot_G+=$tot_G_P;
+	}
+	  echo "<tr>\n";
+	  echo "\t<th class='centro'>T O T A L E S</th>\n";
+	  echo "\t<th class='dcha'>$tot_I €</th>\n";
+	  echo "\t<th class='dcha'>$tot_G €</th>\n";
+	  $tot_N=$tot_I-$tot_G;
+	  echo "\t<th class='dcha'>$tot_N €</th>\n";
+	  echo "</tr>\n";
+
+	 ?>	
+	 
+	</table>
+
+
+
+
 </div> 
 </body>
 </html>

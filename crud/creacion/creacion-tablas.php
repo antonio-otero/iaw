@@ -17,7 +17,7 @@
 
 	echo "<br>Se fixo conexión co servidor MySql $servidor";
 
-	$sql="CREATE DATABASE IF NOT EXISTS $baseDatos DEFAULT CHARSET=utf8";
+	$sql="CREATE DATABASE IF NOT EXISTS `$baseDatos` COLLATE 'utf8_general_ci'";
 
 	$result=@mysqli_query($c,$sql) or die ("<br>Erro ao crear a base de datos $baseDatos
 											<br>Erro número".mysqli_errno($c).

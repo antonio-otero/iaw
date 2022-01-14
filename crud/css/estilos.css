@@ -1,0 +1,25 @@
+#menu {
+	padding: 10px 0;
+}
+#menu .btn-group , #menu form{
+	margin-top:  12px;
+}
+
+#menu img, #alumnos img  {
+	margin: 0 auto; padding-top: 10px;
+}
+#menu .btn {
+	font-size: 1.2em;
+}
+
+#formulario {
+	max-width: 300px;
+	margin: 30px auto;
+	border: 1px solid lightblue;
+	border-radius: 20px;
+	padding: 15px;
+}
+
+table {
+	margin-top: 12px;
+}

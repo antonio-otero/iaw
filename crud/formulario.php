@@ -230,7 +230,7 @@ $nif=strtoupper($nif);//solucionamos problemas con las letras minúsculas
 				echo "<p class='text-warning bg-warning' >El NIF ya existe</p>";
  				echo "<input class='btn btn-default' type='submit' value='$textoBoton' >";
  				echo " <a href='index.php' class='btn btn-default'>Cancelar</a> ";
-			
+				break;
 			default:
 				die ("<p>Error al ejecutar la sentencia SQL; $sql</p>
 					<p>Error número:".mysqli_errno($c)."</p>
